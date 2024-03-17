@@ -8,3 +8,5 @@
 7. zustand: global state management
 8. emoji picker react: for handling emojis
 9. react-textarea-autosize
+10. Edge Store: using for file uploading, it stores your files as links so that convex can get those links!
+11. React-dropzone:

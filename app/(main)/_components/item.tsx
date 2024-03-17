@@ -66,7 +66,7 @@ export const Item = ({
             if (!expanded){
                 onExpand?.();
             }
-            // router.push(`/documents/${documentId}`);
+            router.push(`/documents/${documentId}`);
         });
         toast.promise(promise, {
             loading: "Creating a new note...",
@@ -81,13 +81,11 @@ export const Item = ({
     ) => {
         event.stopPropagation();
         if (!id) return;
-        const promise = archive({id: id})
-        .then((documentId)=>{
-            if (!expanded){
-                onExpand?.();
-            }
-            // router.push(`/documents/${documentId}`);
-        });
+        const promise = archive({id})
+            .then(()=>{
+                router.push(`/documents`);
+            });
+
         toast.promise(promise, {
             loading: "Moving to trash...",
             success: "Note moved to trash!",
@@ -127,7 +125,7 @@ export const Item = ({
                 </div>
             ): (
                 <Icon 
-                className="shrink-0 h-[18px] mr-2 text-muted-foreground"
+                className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground"
                 />
             )}
 

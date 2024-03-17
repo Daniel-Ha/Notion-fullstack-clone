@@ -10,6 +10,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { Search, Trash, Undo } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
+import { useCoverImage } from "@/hooks/use-cover-image";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export const TrashBox = () => {
     const params = useParams();
@@ -17,6 +19,8 @@ export const TrashBox = () => {
     const documents = useQuery(api.documents.getTrash);
     const restore = useMutation(api.documents.restore);
     const remove = useMutation(api.documents.remove);
+    const {edgestore} = useEdgeStore();
+    const [id, setId] = useState<Id<"documents"> | null>(null);
 
     const [search, setSearch] = useState("");
 
@@ -41,22 +45,21 @@ export const TrashBox = () => {
             error: "failed to restore note."
         });
     };
-
     const onRemove = (
-        documentId: Id<"documents">
-    ) => {
-        const promise = remove({id:documentId});
+        documentId: Id<"documents">,
+      ) => {
+        const promise = remove({ id: documentId });
 
         toast.promise(promise, {
-            loading: "Deleting note...",
-            success: "document deleted!",
-            error: "failed to delete note."
+          loading: "Deleting note...",
+          success: "Note deleted!",
+          error:" Failed to delete note."
         });
 
-        if (params.documentId === documentId){
-            router.push("/documents");
+        if (params.documentId === documentId) {
+          router.push("/documents");
         }
-    };
+      };
 
     if (documents === undefined){
         return (
